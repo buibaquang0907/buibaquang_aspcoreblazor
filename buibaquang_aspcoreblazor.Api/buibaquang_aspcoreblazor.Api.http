@@ -1,0 +1,6 @@
+@buibaquang_aspcoreblazor.Api_HostAddress = http://localhost:5178
+
+GET {{buibaquang_aspcoreblazor.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
