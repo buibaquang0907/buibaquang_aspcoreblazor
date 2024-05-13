@@ -1,4 +1,4 @@
-﻿namespace buibaquang_aspcoreblazor.Api.Models
+﻿namespace buibaquang_aspcoreblazor.Models.Models
 {
     public class CategoryRequest
     {

@@ -18,6 +18,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        b => b.SetIsOriginAllowed((host) => true)
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials());
+}
+);
 
 var app = builder.Build();
 
@@ -29,6 +38,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 

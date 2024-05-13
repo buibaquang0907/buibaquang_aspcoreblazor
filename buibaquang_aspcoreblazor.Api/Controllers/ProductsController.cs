@@ -1,7 +1,6 @@
 ﻿using buibaquang_aspcoreblazor.Api.Entities;
-using buibaquang_aspcoreblazor.Api.Models;
 using buibaquang_aspcoreblazor.Api.Repositories;
-using Microsoft.AspNetCore.Http;
+using buibaquang_aspcoreblazor.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace buibaquang_aspcoreblazor.Api.Controllers
@@ -24,7 +23,7 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description != null ? x.Description : "N/A",
-                Image = x.Image != null? x.Image : "N/A",
+                Image = x.Image != null ? x.Image : "N/A",
                 Price = x.Price,
                 CategoryId = x.CategoryId
             });
@@ -68,8 +67,8 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
             {
                 Id = product.Id,
                 Name = product.Name,
-                Description = product.Description,
-                Image = product.Image,
+                Description = product.Description != null ? product.Description : "N/A",
+                Image = product.Image != null ? product.Image : "N/A",
                 Price = product.Price,
                 CategoryId = product.CategoryId
             });
@@ -95,14 +94,16 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var product = await _productRepository.GetById(id);
+
             if (product == null)
                 return NotFound($"{id} is not found");
+
             return Ok(new ProductModel()
             {
                 Id = product.Id,
                 Name = product.Name,
-                Description = product.Description,
-                Image = product.Image,
+                Description = product.Description != null ? product.Description : "N/A",
+                Image = product.Image != null ? product.Image : "N/A",
                 Price = product.Price,
                 CategoryId = product.CategoryId
             });

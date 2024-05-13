@@ -21,4 +21,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\buibaquang_aspcoreblazor.ViewModels\buibaquang_aspcoreblazor.Models.csproj" />
+  </ItemGroup>
+
 </Project>

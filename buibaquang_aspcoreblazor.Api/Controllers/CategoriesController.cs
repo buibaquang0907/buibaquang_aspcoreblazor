@@ -1,6 +1,6 @@
 ﻿using buibaquang_aspcoreblazor.Api.Entities;
-using buibaquang_aspcoreblazor.Api.Models;
 using buibaquang_aspcoreblazor.Api.Repositories;
+using buibaquang_aspcoreblazor.Models.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,8 +22,8 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
             var productModel = categories.Select(x => new CategoryModel
             {
                 Id = x.Id,
-                Name = x.Name,  
-                Image= x.Image,
+                Name = x.Name,
+                Image = x.Image != null ? x.Image : "N/A",
             });
             return Ok(categories);
         }
@@ -32,12 +32,14 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
             var category = await _categoryRepository.Create(new Category()
             {
                 Id = Guid.NewGuid(),
                 Name = request.Name,
                 Image = request.Image,
             });
+
             return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
         }
 
@@ -60,7 +62,7 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
             {
                 Id = category.Id,
                 Name = category.Name,
-                Image = category.Image
+                Image = category.Image != null ? category.Image : "N/A"
             });
         }
 
@@ -84,13 +86,15 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             var category = await _categoryRepository.GetById(id);
+
             if (category == null)
                 return NotFound($"{id} is not found");
+
             return Ok(new CategoryModel()
             {
                 Id = category.Id,
                 Name = category.Name,
-                Image = category.Image
+                Image = category.Image != null ? category.Image : "N/A"
             });
         }
     }

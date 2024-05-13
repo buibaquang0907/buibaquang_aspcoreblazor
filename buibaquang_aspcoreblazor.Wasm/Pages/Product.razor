@@ -1,0 +1,41 @@
+﻿@page "/product"
+
+<h3>Product</h3>
+
+@if (Products == null)
+{
+    <div>Loading</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Image</th>
+                <th>CategoryId</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Products)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>@item.Price</td>
+                    <td>@item.Image</td>
+                    <td>@item.CategoryId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+
+}
