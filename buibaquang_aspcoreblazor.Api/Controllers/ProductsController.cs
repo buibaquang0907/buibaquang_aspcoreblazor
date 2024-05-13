@@ -1,0 +1,111 @@
+﻿using buibaquang_aspcoreblazor.Api.Entities;
+using buibaquang_aspcoreblazor.Api.Models;
+using buibaquang_aspcoreblazor.Api.Repositories;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace buibaquang_aspcoreblazor.Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ProductsController : ControllerBase
+    {
+        private readonly IProductRepository _productRepository;
+        public ProductsController(IProductRepository productRepository)
+        {
+            _productRepository = productRepository;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var products = await _productRepository.GetProductList();
+            var productModel = products.Select(x => new ProductModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description != null ? x.Description : "N/A",
+                Image = x.Image != null? x.Image : "N/A",
+                Price = x.Price,
+                CategoryId = x.CategoryId
+            });
+            return Ok(productModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(ProductModel request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var product = await _productRepository.Create(new Product()
+            {
+                Id = Guid.NewGuid(),
+                Name = request.Name,
+                Description = request.Description,
+                Image = request.Image,
+                Price = request.Price,
+                CategoryId = request.CategoryId
+            });
+            return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update(Guid id, ProductRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var productDb = await _productRepository.GetById(id);
+            if (productDb == null)
+                return NotFound($"{id} is not found");
+
+            productDb.Name = request.Name;
+            productDb.Description = request.Description;
+            productDb.Price = request.Price;
+            productDb.Image = request.Image;
+
+            var product = await _productRepository.Update(productDb);
+            return Ok(new ProductModel()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Image = product.Image,
+                Price = product.Price,
+                CategoryId = product.CategoryId
+            });
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var product = await _productRepository.GetById(id);
+            if (product == null)
+                return NotFound($"{id} is not found");
+
+            var productDel = await _productRepository.Delete(product);
+            return Ok(productDel != null ? "success" : "false");
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
+        {
+            var product = await _productRepository.GetById(id);
+            if (product == null)
+                return NotFound($"{id} is not found");
+            return Ok(new ProductModel()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Image = product.Image,
+                Price = product.Price,
+                CategoryId = product.CategoryId
+            });
+        }
+    }
+}

@@ -1,15 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace buibaquang_aspcoreblazor.Api.Entities
+namespace buibaquang_aspcoreblazor.Api.Models
 {
-    public class Category
+    public class CategoryModel
     {
-        [Key]
         public Guid Id { get; set; }
-        [MaxLength(250)]
-        [Required]
         public string Name { get; set; }
-        [MaxLength(250)]
         public string? Image { get; set; }
     }
 }
