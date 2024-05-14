@@ -1,0 +1,45 @@
+﻿@page "/productCreate"
+@using buibaquang_aspcoreblazor.Models.Models
+@using buibaquang_aspcoreblazor.Wasm.Services
+@inject NavigationManager NavigationManager
+<h3>ProductCreate</h3>
+
+<EditForm Model="product" OnValidSubmit="SubmitProduct">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <InputText class="form-control" @bind-Value="product.Name"></InputText>
+        <ValidationMessage For="()=>product.Name"></ValidationMessage>
+    </div>
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <InputText class="form-control" @bind-Value="product.Description"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="Price">Price</label>
+        <ValidationMessage For="()=>product.Price"></ValidationMessage>
+        <InputNumber class="form-control" @bind-Value="product.Price"></InputNumber>
+    </div>
+    <div class="form-group">
+        <label for="Image">Image</label>
+        <InputText class="form-control" @bind-Value="product.Image"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="Category">Category</label>
+        <InputSelect class="form-select" @bind-Value="product.CategoryId">
+            @if (Categorys != null)
+            {
+                <option value="">--Select--</option>
+                @foreach (var item in Categorys)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            }
+        </InputSelect>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</EditForm>
+
+@code {
+}

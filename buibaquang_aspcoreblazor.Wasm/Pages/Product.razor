@@ -18,8 +18,8 @@ else
                 </div>
                 <div class="col">
                     <label>Category</label>
-                    <InputSelect class="form-control" @bind-Value="ProductListSearch.CategoryId">
-                        <option>--Select--</option>
+                    <InputSelect class="form-select" @bind-Value="ProductListSearch.CategoryId">
+                        <option value="">--Select--</option>
                         @foreach (var item in Categorys)
                         {
                             <option value="@item.Id">@item.Name</option>
@@ -28,15 +28,18 @@ else
                 </div>
                 <div class="col">
                     <label>Price</label>
-                    <InputSelect class="form-control" @bind-Value="ProductListSearch.Price">
-                        <option>--Select--</option>
+                    <InputSelect class="form-select" @bind-Value="ProductListSearch.Price">
+                        <option value="">--Select--</option>
                         <option value="500">0 - 500</option>
                         <option value="1500">500 - 1500</option>
                         <option value="5000">1500 - 5000</option>
                     </InputSelect>
                 </div>
                 <div class="col pt-4">
-                    <button class=" btn btn-success" type="submit">Search</button>
+                    <button class=" btn btn-primary" type="submit">Search</button>
+                </div>
+                <div class="col pt-4">
+                    <a href="/productCreate" class="btn btn-success">Create</a>
                 </div>
             </div>
         </EditForm>
@@ -62,7 +65,9 @@ else
                         <td>@item.Name</td>
                         <td>@item.Description</td>
                         <td>@item.Price</td>
-                        <td>@item.Image</td>
+                        <td>
+                            <img src="@item.Image" alt=""/>
+                        </td>
                         <td>@item.CategoryId</td>
                         <td>
                             <a href="/productDetails/{@item.Id}">Detail</a>
@@ -73,7 +78,6 @@ else
         </table>
     </div>
 }
-
 
 @code {
     

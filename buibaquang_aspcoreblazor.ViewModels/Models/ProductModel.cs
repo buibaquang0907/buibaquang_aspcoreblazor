@@ -1,4 +1,6 @@
-﻿namespace buibaquang_aspcoreblazor.Models.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace buibaquang_aspcoreblazor.Models.Models
 {
     public class ProductModel
     {

@@ -1,4 +1,5 @@
 ﻿using buibaquang_aspcoreblazor.Models.Models;
+using System;
 using System.Net.Http.Json;
 
 namespace buibaquang_aspcoreblazor.Wasm.Services
@@ -7,6 +8,8 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
     {
         Task<List<ProductModel>> GetProducts(ProductListSearch productListSearch);
         Task<ProductModel> GetProductById(string productId);
+
+        Task<bool> CreateProduct(ProductRequest request);
     }
     public class ProductApiClient : IProductApiClient
     {
@@ -15,6 +18,12 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
         public ProductApiClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
+        }
+
+        public async Task<bool> CreateProduct(ProductRequest request)
+        {
+            var result = await _httpClient.PostAsJsonAsync("/api/Products", request);
+            return result.IsSuccessStatusCode;
         }
 
         public async Task<ProductModel> GetProductById(string productId)

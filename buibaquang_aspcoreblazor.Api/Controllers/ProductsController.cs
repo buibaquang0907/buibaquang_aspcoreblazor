@@ -30,7 +30,7 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
             return Ok(productModel);
         }
         [HttpPost]
-        public async Task<IActionResult> Create(ProductModel request)
+        public async Task<IActionResult> Create([FromBody] ProductRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
