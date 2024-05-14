@@ -5,7 +5,8 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
 {
     public interface IProductApiClient
     {
-        Task<List<ProductModel>> GetProducts();
+        Task<List<ProductModel>> GetProducts(ProductListSearch productListSearch);
+        Task<ProductModel> GetProductById(string productId);
     }
     public class ProductApiClient : IProductApiClient
     {
@@ -16,9 +17,16 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<ProductModel>> GetProducts()
+        public async Task<ProductModel> GetProductById(string productId)
         {
-            var result = await _httpClient.GetFromJsonAsync<List<ProductModel>>("/api/Products");
+            var result = await _httpClient.GetFromJsonAsync<ProductModel>($"/api/Products/{productId}");
+            return result;
+        }
+
+        public async Task<List<ProductModel>> GetProducts(ProductListSearch productListSearch)
+        {
+            var url = $"/api/Products?Name={productListSearch.Name}&CategoryId={productListSearch.CategoryId}&Price={productListSearch.Price}";
+            var result = await _httpClient.GetFromJsonAsync<List<ProductModel>>(url);
             return result;
         }
     }

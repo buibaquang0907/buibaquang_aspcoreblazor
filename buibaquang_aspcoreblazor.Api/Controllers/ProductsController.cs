@@ -15,9 +15,9 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
             _productRepository = productRepository;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] ProductListSearch productListSearch)
         {
-            var products = await _productRepository.GetProductList();
+            var products = await _productRepository.GetProductList(productListSearch);
             var productModel = products.Select(x => new ProductModel
             {
                 Id = x.Id,

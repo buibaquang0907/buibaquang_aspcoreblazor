@@ -14,5 +14,7 @@ new HttpClient
 });
 
 builder.Services.AddScoped<IProductApiClient, ProductApiClient>();
+builder.Services.AddScoped<ICategoryApiClient, CategoryApiClient>();
+
 
 await builder.Build().RunAsync();

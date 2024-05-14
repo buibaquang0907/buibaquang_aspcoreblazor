@@ -1,41 +1,80 @@
 ﻿@page "/product"
+@using buibaquang_aspcoreblazor.Wasm.Components;
 
 <h3>Product</h3>
 
-@if (Products == null)
+@if (Products == null || Categorys == null)
 {
-    <div>Loading</div>
+    <LoadingIndicator></LoadingIndicator>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Image</th>
-                <th>CategoryId</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Products)
-            {
+    <div class="row">
+        <EditForm Model="@ProductListSearch" OnSubmit=@SearchForm>
+            <div class="row">
+                <div class="col">
+                    <label>Name</label>
+                    <InputText class="form-control" @bind-Value="ProductListSearch.Name"></InputText>
+                </div>
+                <div class="col">
+                    <label>Category</label>
+                    <InputSelect class="form-control" @bind-Value="ProductListSearch.CategoryId">
+                        <option>--Select--</option>
+                        @foreach (var item in Categorys)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="col">
+                    <label>Price</label>
+                    <InputSelect class="form-control" @bind-Value="ProductListSearch.Price">
+                        <option>--Select--</option>
+                        <option value="500">0 - 500</option>
+                        <option value="1500">500 - 1500</option>
+                        <option value="5000">1500 - 5000</option>
+                    </InputSelect>
+                </div>
+                <div class="col pt-4">
+                    <button class=" btn btn-success" type="submit">Search</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+    <div class="row mt-4">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Name</td>
-                    <td>@item.Description</td>
-                    <td>@item.Price</td>
-                    <td>@item.Image</td>
-                    <td>@item.CategoryId</td>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                    <th>CategoryId</th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Products)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td>@item.Price</td>
+                        <td>@item.Image</td>
+                        <td>@item.CategoryId</td>
+                        <td>
+                            <a href="/productDetails/{@item.Id}">Detail</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 
 
 @code {
-
+    
 }

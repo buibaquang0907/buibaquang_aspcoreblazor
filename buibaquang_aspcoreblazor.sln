@@ -5,9 +5,9 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "buibaquang_aspcoreblazor.Api", "buibaquang_aspcoreblazor.Api\buibaquang_aspcoreblazor.Api.csproj", "{1197CD41-ACFC-466E-BA88-0EE09FDF0717}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "buibaquang_aspcoreblazor.Wasm", "buibaquang_aspcoreblazor.Wasm\buibaquang_aspcoreblazor.Wasm.csproj", "{58456807-B43C-409D-ACB9-0A9C50155534}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "buibaquang_aspcoreblazor.Wasm", "buibaquang_aspcoreblazor.Wasm\buibaquang_aspcoreblazor.Wasm.csproj", "{58456807-B43C-409D-ACB9-0A9C50155534}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "buibaquang_aspcoreblazor.Models", "buibaquang_aspcoreblazor.ViewModels\buibaquang_aspcoreblazor.Models.csproj", "{0AB27E18-FD79-43D2-81C0-42F78AEEDDD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "buibaquang_aspcoreblazor.Models", "buibaquang_aspcoreblazor.ViewModels\buibaquang_aspcoreblazor.Models.csproj", "{0AB27E18-FD79-43D2-81C0-42F78AEEDDD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
