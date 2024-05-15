@@ -1,3 +1,4 @@
+using Blazored.Toast;
 using buibaquang_aspcoreblazor.Wasm;
 using buibaquang_aspcoreblazor.Wasm.Services;
 using Microsoft.AspNetCore.Components.Web;
@@ -13,6 +14,7 @@ new HttpClient
     BaseAddress = new Uri("https://localhost:7002")
 });
 
+builder.Services.AddBlazoredToast();
 builder.Services.AddScoped<IProductApiClient, ProductApiClient>();
 builder.Services.AddScoped<ICategoryApiClient, CategoryApiClient>();
 

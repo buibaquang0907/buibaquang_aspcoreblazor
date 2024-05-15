@@ -87,7 +87,7 @@ namespace buibaquang_aspcoreblazor.Api.Migrations
                     dateOrder = table.Column<DateTime>(type: "datetime2", nullable: false),
                     shippingAddress = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     payment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

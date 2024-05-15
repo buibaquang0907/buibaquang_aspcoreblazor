@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using buibaquang_aspcoreblazor.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace buibaquang_aspcoreblazor.Api.Entities
 {
@@ -14,6 +15,6 @@ namespace buibaquang_aspcoreblazor.Api.Entities
         [Required]
         public string shippingAddress { get; set; }
         public string payment { get; set; }
-        public string status { get; set;}
+        public Status status { get; set;}
     }
 }

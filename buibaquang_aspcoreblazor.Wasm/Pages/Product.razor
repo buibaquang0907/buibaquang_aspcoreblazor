@@ -1,7 +1,7 @@
 ﻿@page "/product"
 @using buibaquang_aspcoreblazor.Wasm.Components;
 
-<h3>Product</h3>
+<h3 class="text-center my-4">Product List</h3>
 
 @if (Products == null || Categorys == null)
 {
@@ -9,16 +9,16 @@
 }
 else
 {
-    <div class="row">
+    <div class="container">
         <EditForm Model="@ProductListSearch" OnSubmit=@SearchForm>
-            <div class="row">
-                <div class="col">
-                    <label>Name</label>
-                    <InputText class="form-control" @bind-Value="ProductListSearch.Name"></InputText>
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <label for="productName">Name</label>
+                    <InputText id="productName" class="form-control" @bind-Value="ProductListSearch.Name"></InputText>
                 </div>
-                <div class="col">
-                    <label>Category</label>
-                    <InputSelect class="form-select" @bind-Value="ProductListSearch.CategoryId">
+                <div class="col-md-3">
+                    <label for="categorySelect">Category</label>
+                    <InputSelect id="categorySelect" class="form-select" @bind-Value="ProductListSearch.CategoryId">
                         <option value="">--Select--</option>
                         @foreach (var item in Categorys)
                         {
@@ -26,59 +26,81 @@ else
                         }
                     </InputSelect>
                 </div>
-                <div class="col">
-                    <label>Price</label>
-                    <InputSelect class="form-select" @bind-Value="ProductListSearch.Price">
+                <div class="col-md-3">
+                    <label for="priceSelect">Price</label>
+                    <InputSelect id="priceSelect" class="form-select" @bind-Value="ProductListSearch.Price">
                         <option value="">--Select--</option>
                         <option value="500">0 - 500</option>
                         <option value="1500">500 - 1500</option>
                         <option value="5000">1500 - 5000</option>
                     </InputSelect>
                 </div>
-                <div class="col pt-4">
-                    <button class=" btn btn-primary" type="submit">Search</button>
-                </div>
-                <div class="col pt-4">
+                <div class="col-md-3 d-flex align-items-end">
+                    <button class="btn btn-primary me-2" type="submit">Search</button>
                     <a href="/productCreate" class="btn btn-success">Create</a>
                 </div>
             </div>
         </EditForm>
     </div>
-    <div class="row mt-4">
-        <table class="table">
-            <thead>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-end mb-2">
+            <label for="itemsPerPageSelect" class="me-2">Items per page:</label>
+            <InputSelect id="itemsPerPageSelect" class="form-select w-auto" @bind-Value="ItemsPerPage" @onchange="OnItemsPerPageChanged">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+            </InputSelect>
+        </div>
+        <table class="table table-striped">
+            <thead class="thead-dark">
                 <tr>
-                    <th>Id</th>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Description</th>
                     <th>Price</th>
-                    <th>Image</th>
-                    <th>CategoryId</th>
-                    <th></th>
+                    <th>Category</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Products)
+                @foreach (var item in PaginatedProducts)
                 {
                     <tr>
-                        <td>@item.Id</td>
+                        <td>
+                            <img src="@item.Image" alt="Product Image" width="150" height="150" />
+                        </td>
                         <td>@item.Name</td>
                         <td>@item.Description</td>
                         <td>@item.Price</td>
+                        <td>@GetCategoryName(item.CategoryId)</td>
                         <td>
-                            <img src="@item.Image" alt=""/>
-                        </td>
-                        <td>@item.CategoryId</td>
-                        <td>
-                            <a href="/productDetails/{@item.Id}">Detail</a>
+                            <a href="/productDetails/@item.Id" class="btn btn-info btn-sm">Detail</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
+                    <button class="page-link" @onclick="() => ChangePage(CurrentPage - 1)">Previous</button>
+                </li>
+                @for (var i = 1; i <= TotalPages; i++)
+                {
+                    <li class="page-item @(CurrentPage == i ? "active" : "")">
+                        <button class="page-link" @onclick="() => ChangePage(i)">@i</button>
+                    </li>
+                }
+                <li class="page-item @(CurrentPage == TotalPages ? "disabled" : "")">
+                    <button class="page-link" @onclick="() => ChangePage(CurrentPage + 1)">Next</button>
+                </li>
+            </ul>
+        </nav>
     </div>
 }
-
 @code {
-    
+
 }
+

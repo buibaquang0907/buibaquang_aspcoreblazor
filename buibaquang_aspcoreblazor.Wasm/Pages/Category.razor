@@ -1,6 +1,8 @@
 ﻿@page "/category"
 @using buibaquang_aspcoreblazor.Wasm.Components
+
 <h3>Category</h3>
+
 @if (Categorys == null)
 {
     <LoadingIndicator></LoadingIndicator>
@@ -10,7 +12,6 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Image</th>
             </tr>
@@ -19,7 +20,6 @@ else
             @foreach (var item in Categorys)
             {
                 <tr>
-                    <td>@item.Id</td>
                     <td>@item.Name</td>
                     <td>@item.Image</td>
                 </tr>

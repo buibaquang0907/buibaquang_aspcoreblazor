@@ -12,7 +12,7 @@ using buibaquang_aspcoreblazor.Api.Data;
 namespace buibaquang_aspcoreblazor.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240513003602_Initial")]
+    [Migration("20240514172201_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -72,9 +72,8 @@ namespace buibaquang_aspcoreblazor.Api.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<string>("status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
