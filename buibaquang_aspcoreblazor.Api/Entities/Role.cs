@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace buibaquang_aspcoreblazor.Api.Entities
 {
-    public class Role
+    public class Role : IdentityRole<Guid>
     {
-        [Key]
-        public Guid Id { get; set; }
-        public string auth { get; set; }
+        [MaxLength(200)]
+        [Required]
+        public string Description { get; set; }
     }
 }
