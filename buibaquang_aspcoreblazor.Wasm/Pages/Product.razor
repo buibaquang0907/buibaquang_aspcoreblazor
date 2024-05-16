@@ -1,26 +1,26 @@
 ﻿@page "/product"
-@using buibaquang_aspcoreblazor.Wasm.Components;
+@using buibaquang_aspcoreblazor.Wasm.Components
 
 <h3 class="text-center my-4">Product List</h3>
 
-@if (Products == null || Categorys == null)
+@if (Products == null || Categories == null)
 {
-    <LoadingIndicator></LoadingIndicator>
+    <LoadingIndicator />
 }
 else
 {
     <div class="container">
-        <EditForm Model="@ProductListSearch" OnSubmit=@SearchForm>
+        <EditForm Model="@ProductListSearch" OnSubmit="@SearchForm">
             <div class="row mb-4">
                 <div class="col-md-3">
                     <label for="productName">Name</label>
-                    <InputText id="productName" class="form-control" @bind-Value="ProductListSearch.Name"></InputText>
+                    <InputText id="productName" class="form-control" @bind-Value="ProductListSearch.Name" placeholder="Enter product name" />
                 </div>
                 <div class="col-md-3">
                     <label for="categorySelect">Category</label>
                     <InputSelect id="categorySelect" class="form-select" @bind-Value="ProductListSearch.CategoryId">
                         <option value="">--Select--</option>
-                        @foreach (var item in Categorys)
+                        @foreach (var item in Categories)
                         {
                             <option value="@item.Id">@item.Name</option>
                         }
@@ -44,7 +44,7 @@ else
     </div>
 
     <div class="container mt-4">
-        <div class="d-flex justify-content-end mb-2">
+        <div class="d-flex justify-content-md-start mb-2">
             <label for="itemsPerPageSelect" class="me-2">Items per page:</label>
             <InputSelect id="itemsPerPageSelect" class="form-select w-auto" @bind-Value="ItemsPerPage" @onchange="OnItemsPerPageChanged">
                 <option value="5">5</option>
@@ -68,37 +68,37 @@ else
                 {
                     <tr>
                         <td>
-                            <img src="@item.Image" alt="Product Image" width="150" height="150" />
+                            <img src="@item.Image" alt="Product Image" width="150" height="150" class="img-thumbnail" />
                         </td>
                         <td>@item.Name</td>
                         <td>@item.Description</td>
                         <td>@item.Price</td>
                         <td>@GetCategoryName(item.CategoryId)</td>
                         <td>
-                            <a href="/productDetails/@item.Id" class="btn btn-info btn-sm">Detail</a>
+                            <a href="/productDetail/@item.Id" class="btn btn-info btn-sm me-1">Detail</a>
+                            <a href="/productUpdate/@item.Id" class="btn btn-warning btn-sm">Edit</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-
-        <nav>
-            <ul class="pagination justify-content-center">
-                <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
-                    <button class="page-link" @onclick="() => ChangePage(CurrentPage - 1)">Previous</button>
-                </li>
-                @for (var i = 1; i <= TotalPages; i++)
-                {
-                    <li class="page-item @(CurrentPage == i ? "active" : "")">
-                        <button class="page-link" @onclick="() => ChangePage(i)">@i</button>
-                    </li>
-                }
-                <li class="page-item @(CurrentPage == TotalPages ? "disabled" : "")">
-                    <button class="page-link" @onclick="() => ChangePage(CurrentPage + 1)">Next</button>
-                </li>
-            </ul>
-        </nav>
     </div>
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
+                <button class="page-link" @onclick="() => ChangePage(CurrentPage - 1)">Previous</button>
+            </li>
+            @for (var i = 1; i <= TotalPages; i++)
+            {
+                <li class="page-item @(CurrentPage == i ? "active" : "")">
+                    <button class="page-link" @onclick="() => ChangePage(i)">@i</button>
+                </li>
+            }
+            <li class="page-item @(CurrentPage == TotalPages ? "disabled" : "")">
+                <button class="page-link" @onclick="() => ChangePage(CurrentPage + 1)">Next</button>
+            </li>
+        </ul>
+    </nav>
 }
 @code {
 

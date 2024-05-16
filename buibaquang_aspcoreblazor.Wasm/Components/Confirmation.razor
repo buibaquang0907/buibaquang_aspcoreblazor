@@ -1,0 +1,15 @@
+﻿<h3>Confirmation</h3>
+
+@code {
+    protected bool ShowComfirmation { get; set; }
+    [Parameter]
+    public string ComfirmationTitle { get; set; } = "Comfirm Delete";
+    [Parameter]
+    public string ComfirmationMessage { get; set; } = "Are you sure you want to delete";
+
+    public void Show()
+    {
+        ShowComfirmation = true;
+        StateHasChanged();
+    }
+}

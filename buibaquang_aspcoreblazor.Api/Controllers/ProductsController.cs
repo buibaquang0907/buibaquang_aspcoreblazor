@@ -48,7 +48,7 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> Update(Guid id, ProductRequest request)
+        public async Task<IActionResult> Update(Guid id, [FromBody] ProductRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -61,6 +61,7 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
             productDb.Description = request.Description;
             productDb.Price = request.Price;
             productDb.Image = request.Image;
+            productDb.CategoryId = request.CategoryId;
 
             var product = await _productRepository.Update(productDb);
             return Ok(new ProductModel()

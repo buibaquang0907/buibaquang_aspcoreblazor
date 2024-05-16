@@ -10,6 +10,8 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
         Task<ProductModel> GetProductById(string productId);
 
         Task<bool> CreateProduct(ProductRequest request);
+        Task<bool> UpdateProduct(Guid id,ProductRequest request);
+
     }
     public class ProductApiClient : IProductApiClient
     {
@@ -37,6 +39,12 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
             var url = $"/api/Products?Name={productListSearch.Name}&CategoryId={productListSearch.CategoryId}&Price={productListSearch.Price}";
             var result = await _httpClient.GetFromJsonAsync<List<ProductModel>>(url);
             return result;
+        }
+
+        public async Task<bool> UpdateProduct(Guid id, ProductRequest request)
+        {
+            var result = await _httpClient.PutAsJsonAsync($"/api/Products/{id}", request);
+            return result.IsSuccessStatusCode;
         }
     }
 }
