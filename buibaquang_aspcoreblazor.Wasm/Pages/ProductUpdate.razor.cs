@@ -10,7 +10,9 @@ namespace buibaquang_aspcoreblazor.Wasm.Pages
     {
         [Inject] private ICategoryApiClient categoryApiClient { get; set; }
         [Inject] private IProductApiClient productApiClient { get; set; }
-        [Inject] private IToastService toastService { get; set; }
+        [Inject] private IToastService ToastService { get; set; }
+        [Inject] private NavigationManager NavigationManager { get; set; }
+
 
         private List<CategoryModel> Categorys;
 
@@ -37,11 +39,11 @@ namespace buibaquang_aspcoreblazor.Wasm.Pages
             var result = await productApiClient.UpdateProduct(Guid.Parse(ProductId), product);
             if (result)
             {
-                toastService.ShowSuccess("Product updated successfully.");
+                ToastService.ShowSuccess("Product updated successfully.");
                 NavigationManager.NavigateTo("/product");
             }
             else
-                toastService.ShowError("Failed to create product.");
+                ToastService.ShowError("Failed to create product.");
         }
     }
 }

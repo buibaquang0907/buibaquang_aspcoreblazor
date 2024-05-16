@@ -1,5 +1,6 @@
 ﻿using Blazored.Toast.Services;
 using buibaquang_aspcoreblazor.Models.Models;
+using buibaquang_aspcoreblazor.Wasm.Components;
 using buibaquang_aspcoreblazor.Wasm.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -12,6 +13,9 @@ namespace buibaquang_aspcoreblazor.Wasm.Pages
         [Inject] private IProductApiClient ProductApiClient { get; set; }
         [Inject] private ICategoryApiClient CategoryApiClient { get; set; }
         [Inject] private IToastService ToastService { get; set; }
+
+        protected Confirmation DeleteConfirmation { get; set; }
+        private Guid DeleteId { get; set; }
 
         private List<ProductModel> Products;
         private List<CategoryModel> Categories;
@@ -53,11 +57,10 @@ namespace buibaquang_aspcoreblazor.Wasm.Pages
         private void ChangePage(int page)
         {
             if (page >= 1 && page <= TotalPages)
-            {
                 CurrentPage = page;
-            }
         }
 
+        // search product
         private async Task SearchForm(EditContext context)
         {
             ToastService.ShowInfo("Search Completed");
@@ -69,6 +72,27 @@ namespace buibaquang_aspcoreblazor.Wasm.Pages
         {
             var category = Categories.Find(c => c.Id == categoryId);
             return category?.Name ?? "N/A";
+        }
+
+        // delete product to confirmation
+        private void OnDeleteProduct(Guid deleteId)
+        {
+            DeleteId = deleteId;
+            DeleteConfirmation.Show();
+        }
+        private async Task OnConfirmDeleteProduct(bool deleteConfirmed)
+        {
+            if(deleteConfirmed)
+            {
+                var result = await ProductApiClient.DeleteProduct(DeleteId);
+                if (result)
+                {
+                    ToastService.ShowSuccess("Product deleted successfully.");
+                    await LoadProducts();
+                }
+                else
+                    ToastService.ShowError("Failed to deleted product.");
+            }
         }
     }
 }

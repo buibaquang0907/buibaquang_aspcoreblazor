@@ -11,6 +11,7 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
 
         Task<bool> CreateProduct(ProductRequest request);
         Task<bool> UpdateProduct(Guid id,ProductRequest request);
+        Task<bool> DeleteProduct(Guid id);
 
     }
     public class ProductApiClient : IProductApiClient
@@ -25,6 +26,12 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
         public async Task<bool> CreateProduct(ProductRequest request)
         {
             var result = await _httpClient.PostAsJsonAsync("/api/Products", request);
+            return result.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteProduct(Guid id)
+        {
+            var result = await _httpClient.DeleteAsync($"/api/Products/{id}");
             return result.IsSuccessStatusCode;
         }
 
