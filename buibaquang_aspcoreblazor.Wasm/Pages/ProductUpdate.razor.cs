@@ -13,14 +13,12 @@ namespace buibaquang_aspcoreblazor.Wasm.Pages
         [Inject] private IToastService ToastService { get; set; }
         [Inject] private NavigationManager NavigationManager { get; set; }
 
-
         private List<CategoryModel> Categorys;
 
         private ProductRequest product;
 
         [Parameter]
         public string ProductId { get; set; }
-        private ProductModel productUpdate { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -43,7 +41,7 @@ namespace buibaquang_aspcoreblazor.Wasm.Pages
                 NavigationManager.NavigateTo("/product");
             }
             else
-                ToastService.ShowError("Failed to create product.");
+                ToastService.ShowError("Failed to updated product.");
         }
     }
 }

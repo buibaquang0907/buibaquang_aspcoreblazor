@@ -1,0 +1,23 @@
+﻿@page "/categoryCreate"
+@using buibaquang_aspcoreblazor.Models.Models
+@using buibaquang_aspcoreblazor.Wasm.Services
+@inject NavigationManager NavigationManager
+
+<h3>Category Create</h3>
+
+<EditForm Model="category" OnValidSubmit="SubmitCategory">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <InputText class="form-control" @bind-Value="category.Name"></InputText>
+        <ValidationMessage For="()=>category.Name"></ValidationMessage>
+    </div>
+    <div class="form-group">
+        <label for="Image">Image</label>
+        <InputText class="form-control" @bind-Value="category.Image"></InputText>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</EditForm>
+
+@code {
+}

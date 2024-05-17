@@ -8,11 +8,9 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
     {
         Task<List<ProductModel>> GetProducts(ProductListSearch productListSearch);
         Task<ProductModel> GetProductById(string productId);
-
         Task<bool> CreateProduct(ProductRequest request);
         Task<bool> UpdateProduct(Guid id,ProductRequest request);
         Task<bool> DeleteProduct(Guid id);
-
     }
     public class ProductApiClient : IProductApiClient
     {
@@ -23,16 +21,11 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
             _httpClient = httpClient;
         }
 
-        public async Task<bool> CreateProduct(ProductRequest request)
+        public async Task<List<ProductModel>> GetProducts(ProductListSearch productListSearch)
         {
-            var result = await _httpClient.PostAsJsonAsync("/api/Products", request);
-            return result.IsSuccessStatusCode;
-        }
-
-        public async Task<bool> DeleteProduct(Guid id)
-        {
-            var result = await _httpClient.DeleteAsync($"/api/Products/{id}");
-            return result.IsSuccessStatusCode;
+            var url = $"/api/Products?Name={productListSearch.Name}&CategoryId={productListSearch.CategoryId}&Price={productListSearch.Price}";
+            var result = await _httpClient.GetFromJsonAsync<List<ProductModel>>(url);
+            return result;
         }
 
         public async Task<ProductModel> GetProductById(string productId)
@@ -41,16 +34,21 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
             return result;
         }
 
-        public async Task<List<ProductModel>> GetProducts(ProductListSearch productListSearch)
+        public async Task<bool> CreateProduct(ProductRequest request)
         {
-            var url = $"/api/Products?Name={productListSearch.Name}&CategoryId={productListSearch.CategoryId}&Price={productListSearch.Price}";
-            var result = await _httpClient.GetFromJsonAsync<List<ProductModel>>(url);
-            return result;
+            var result = await _httpClient.PostAsJsonAsync("/api/Products", request);
+            return result.IsSuccessStatusCode;
         }
 
         public async Task<bool> UpdateProduct(Guid id, ProductRequest request)
         {
             var result = await _httpClient.PutAsJsonAsync($"/api/Products/{id}", request);
+            return result.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteProduct(Guid id)
+        {
+            var result = await _httpClient.DeleteAsync($"/api/Products/{id}");
             return result.IsSuccessStatusCode;
         }
     }
