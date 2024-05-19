@@ -1,6 +1,7 @@
 ﻿using buibaquang_aspcoreblazor.Api.Entities;
 using buibaquang_aspcoreblazor.Api.Repositories;
 using buibaquang_aspcoreblazor.Models.Models;
+using buibaquang_aspcoreblazor.Models.SeedWork;
 using Microsoft.AspNetCore.Mvc;
 
 namespace buibaquang_aspcoreblazor.Api.Controllers
@@ -17,8 +18,9 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] ProductListSearch productListSearch)
         {
-            var products = await _productRepository.GetProductList(productListSearch);
-            var productModel = products.Select(x => new ProductModel
+            var pagedList = await _productRepository.GetProductList(productListSearch);
+            //var productModel = pagedList.Select(x => new ProductModel
+            var productModel = pagedList.Items.Select(x => new ProductModel
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -27,7 +29,13 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
                 Price = x.Price,
                 CategoryId = x.CategoryId
             });
-            return Ok(productModel);
+            //return Ok(productModel);
+            return Ok(
+                    new PageList<ProductModel>(productModel.ToList(),
+                        pagedList.MetaData.TotalCount,
+                        pagedList.MetaData.CurrentPage,
+                        pagedList.MetaData.PageSize)
+                );
         }
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ProductRequest request)

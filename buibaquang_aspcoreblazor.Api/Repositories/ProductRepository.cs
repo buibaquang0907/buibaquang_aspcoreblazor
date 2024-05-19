@@ -1,6 +1,7 @@
 ﻿using buibaquang_aspcoreblazor.Api.Data;
 using buibaquang_aspcoreblazor.Api.Entities;
 using buibaquang_aspcoreblazor.Models.Models;
+using buibaquang_aspcoreblazor.Models.SeedWork;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
@@ -8,7 +9,8 @@ namespace buibaquang_aspcoreblazor.Api.Repositories
 {
     public interface IProductRepository
     {
-        Task<IEnumerable<Product>> GetProductList(ProductListSearch productListSearch);
+        Task<PageList<Product>> GetProductList(ProductListSearch productListSearch);
+        //Task<IEnumerable<Product>> GetProductList(ProductListSearch productListSearch);
         Task<Product> Create(Product product);
         Task<Product> Update(Product product);
         Task<Product> Delete(Product product);
@@ -23,7 +25,8 @@ namespace buibaquang_aspcoreblazor.Api.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Product>> GetProductList(ProductListSearch productListSearch)
+        public async Task<PageList<Product>> GetProductList(ProductListSearch productListSearch)
+        //public async Task<IEnumerable<Product>> GetProductList(ProductListSearch productListSearch)
         {
             var query = _context.Products.AsQueryable();
 
@@ -56,8 +59,13 @@ namespace buibaquang_aspcoreblazor.Api.Repositories
                     query = query.Where(x => x.Price > minPrice && x.Price <= maxprice);
                 }
             }
-
-            return await query.ToListAsync();
+            //return await query.ToListAsync();
+            var count = await query.CountAsync();
+            var data = await query
+                .Skip((productListSearch.PageNumber - 1) * productListSearch.PageSize)
+                .Take(productListSearch.PageSize)
+                .ToListAsync();
+            return new PageList<Product>(data, count, productListSearch.PageNumber, productListSearch.PageSize);
         }
 
         public async Task<Product> Create(Product product)

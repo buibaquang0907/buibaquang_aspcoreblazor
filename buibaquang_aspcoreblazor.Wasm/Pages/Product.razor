@@ -44,14 +44,6 @@ else
     </div>
 
     <div class="container mt-4">
-        <div class="d-flex justify-content-md-start mb-2">
-            <label for="itemsPerPageSelect" class="me-2">Items per page:</label>
-            <InputSelect id="itemsPerPageSelect" class="form-select w-auto" @bind-Value="ItemsPerPage" @onchange="OnItemsPerPageChanged">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-            </InputSelect>
-        </div>
         <table class="table table-striped">
             <thead class="thead-dark">
                 <tr>
@@ -64,7 +56,7 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in PaginatedProducts)
+                @foreach (var item in Products)
                 {
                     <tr>
                         <td>
@@ -82,24 +74,11 @@ else
                     </tr>
                 }
             </tbody>
+            <tfoot>
+                <Pagination MetaData="MetaData" Spread="2" SelectedPage="SelectedPage"></Pagination>
+            </tfoot>
         </table>
     </div>
-    <nav>
-        <ul class="pagination justify-content-center">
-            <li class="page-item @(CurrentPage == 1 ? "disabled" : "")">
-                <button class="page-link" @onclick="() => ChangePage(CurrentPage - 1)">Previous</button>
-            </li>
-            @for (var i = 1; i <= TotalPages; i++)
-            {
-                <li class="page-item @(CurrentPage == i ? "active" : "")">
-                    <button class="page-link" @onclick="() => ChangePage(i)">@i</button>
-                </li>
-            }
-            <li class="page-item @(CurrentPage == TotalPages ? "disabled" : "")">
-                <button class="page-link" @onclick="() => ChangePage(CurrentPage + 1)">Next</button>
-            </li>
-        </ul>
-    </nav>
     <Confirmation ConfirmationMessage="Are you sure to delete"
                   ConfirmationTitle="Delete Product"
                   ConfirmationChanged="OnConfirmDeleteProduct"

@@ -1,5 +1,6 @@
 ﻿using Blazored.Toast.Services;
 using buibaquang_aspcoreblazor.Models.Models;
+using buibaquang_aspcoreblazor.Models.SeedWork;
 using buibaquang_aspcoreblazor.Wasm.Components;
 using buibaquang_aspcoreblazor.Wasm.Services;
 using Microsoft.AspNetCore.Components;
@@ -19,53 +20,36 @@ namespace buibaquang_aspcoreblazor.Wasm.Pages
 
         private List<ProductModel> Products;
         private List<CategoryModel> Categories;
+        public MetaData MetaData { get; set; } = new MetaData();
 
-        private int CurrentPage = 1;
-        private int TotalPages;
-        private int ItemsPerPage = 5;
 
         private ProductListSearch ProductListSearch = new ProductListSearch();
 
-        private List<ProductModel> PaginatedProducts => Products
-            .Skip((CurrentPage - 1) * ItemsPerPage)
-            .Take(ItemsPerPage)
-            .ToList();
 
         protected override async Task OnInitializedAsync()
         {
             Categories = await CategoryApiClient.GetCategories();
-            await LoadProducts();
+            await GetProducts();
         }
 
-        private async Task LoadProducts()
+        private async Task GetProducts()
         {
-            Products = await ProductApiClient.GetProducts(ProductListSearch);
-            CalculateTotalPages();
+            var pagingResponse = await ProductApiClient.GetProducts(ProductListSearch);
+            Products = pagingResponse.Items;
+            MetaData = pagingResponse.MetaData;
         }
 
-        private void CalculateTotalPages()
+        private async Task SelectedPage(int page)
         {
-            TotalPages = (int)Math.Ceiling(Products.Count / (double)ItemsPerPage);
-        }
-        private void OnItemsPerPageChanged(ChangeEventArgs e)
-        {
-            ItemsPerPage = int.Parse(e.Value.ToString());
-            CurrentPage = 1;
-            CalculateTotalPages();
-        }
-
-        private void ChangePage(int page)
-        {
-            if (page >= 1 && page <= TotalPages)
-                CurrentPage = page;
+            ProductListSearch.PageNumber = page;
+            await GetProducts();
         }
 
         // search product
         private async Task SearchForm(EditContext context)
         {
             ToastService.ShowInfo("Search Completed");
-            CurrentPage = 1;
-            await LoadProducts();
+            await GetProducts();
         }
 
         private string GetCategoryName(Guid? categoryId)
@@ -88,7 +72,7 @@ namespace buibaquang_aspcoreblazor.Wasm.Pages
                 if (result)
                 {
                     ToastService.ShowSuccess("Product deleted successfully.");
-                    await LoadProducts();
+                    await GetProducts();
                 }
                 else
                     ToastService.ShowError("Failed to deleted product.");
