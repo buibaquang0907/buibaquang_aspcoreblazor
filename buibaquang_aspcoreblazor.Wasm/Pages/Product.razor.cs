@@ -20,6 +20,10 @@ namespace buibaquang_aspcoreblazor.Wasm.Pages
 
         private List<ProductModel> Products;
         private List<CategoryModel> Categories;
+
+        [CascadingParameter]
+        public Error? Error { get; set; }
+
         public MetaData MetaData { get; set; } = new MetaData();
 
 
@@ -34,9 +38,16 @@ namespace buibaquang_aspcoreblazor.Wasm.Pages
 
         private async Task GetProducts()
         {
-            var pagingResponse = await ProductApiClient.GetProducts(ProductListSearch);
-            Products = pagingResponse.Items;
-            MetaData = pagingResponse.MetaData;
+            try
+            {
+                var pagingResponse = await ProductApiClient.GetProducts(ProductListSearch);
+                Products = pagingResponse.Items;
+                MetaData = pagingResponse.MetaData;
+            }
+            catch (Exception ex)
+            {
+                Error.ProcessError(ex);
+            }
         }
 
         private async Task SelectedPage(int page)
