@@ -11,11 +11,11 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
         Task<bool> UpdateCategory(Guid id, CategoryRequest request);
         Task<bool> DeleteCategory(Guid id);
     }
-    public class CategoryApiClient : ICategoryApiClient
+    public class CategoryService : ICategoryApiClient
     {
         public HttpClient _httpClient;
 
-        public CategoryApiClient(HttpClient httpClient)
+        public CategoryService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }

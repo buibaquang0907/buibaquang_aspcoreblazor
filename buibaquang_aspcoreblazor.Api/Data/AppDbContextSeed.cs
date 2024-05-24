@@ -1,5 +1,4 @@
 ﻿using buibaquang_aspcoreblazor.Api.Entities;
-using buibaquang_aspcoreblazor.Models.Enums;
 using Microsoft.AspNetCore.Identity;
 
 namespace buibaquang_aspcoreblazor.Api.Data

@@ -9,6 +9,5 @@ namespace buibaquang_aspcoreblazor.Api.Entities
         [Required]
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
     }
 }

@@ -1,6 +1,5 @@
 ﻿using buibaquang_aspcoreblazor.Api.Entities;
 using buibaquang_aspcoreblazor.Models.Login;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;

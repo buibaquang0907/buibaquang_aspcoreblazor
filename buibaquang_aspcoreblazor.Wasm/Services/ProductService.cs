@@ -15,11 +15,11 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
         Task<bool> UpdateProduct(Guid id, ProductRequest request);
         Task<bool> DeleteProduct(Guid id);
     }
-    public class ProductApiClient : IProductApiClient
+    public class ProductService : IProductApiClient
     {
         public HttpClient _httpClient;
 
-        public ProductApiClient(HttpClient httpClient)
+        public ProductService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
