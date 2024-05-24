@@ -1,6 +1,8 @@
 ﻿using buibaquang_aspcoreblazor.Api.Entities;
 using buibaquang_aspcoreblazor.Api.Repositories;
 using buibaquang_aspcoreblazor.Models.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +10,7 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;

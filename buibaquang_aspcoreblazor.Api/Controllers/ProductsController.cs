@@ -2,12 +2,15 @@
 using buibaquang_aspcoreblazor.Api.Repositories;
 using buibaquang_aspcoreblazor.Models.Models;
 using buibaquang_aspcoreblazor.Models.SeedWork;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace buibaquang_aspcoreblazor.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
