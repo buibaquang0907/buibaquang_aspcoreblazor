@@ -1,6 +1,7 @@
 using Blazored.LocalStorage;
 using Blazored.Toast;
 using buibaquang_aspcoreblazor.Wasm;
+using buibaquang_aspcoreblazor.Wasm.Provider;
 using buibaquang_aspcoreblazor.Wasm.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;

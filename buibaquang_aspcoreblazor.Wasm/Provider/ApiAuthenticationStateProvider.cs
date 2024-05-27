@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
 
-namespace buibaquang_aspcoreblazor.Wasm
+namespace buibaquang_aspcoreblazor.Wasm.Provider
 {
     public class ApiAuthenticationStateProvider : AuthenticationStateProvider
     {
