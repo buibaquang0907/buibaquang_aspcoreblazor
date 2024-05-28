@@ -12,7 +12,7 @@ using buibaquang_aspcoreblazor.Api.Data;
 namespace buibaquang_aspcoreblazor.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240516175146_Initial")]
+    [Migration("20240528175752_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -154,9 +154,6 @@ namespace buibaquang_aspcoreblazor.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<double>("TotalPrice")
                         .HasColumnType("float");
 
@@ -180,11 +177,33 @@ namespace buibaquang_aspcoreblazor.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("buibaquang_aspcoreblazor.Api.Entities.OrderProduct", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderProduct");
                 });
 
             modelBuilder.Entity("buibaquang_aspcoreblazor.Api.Entities.Product", b =>
@@ -376,21 +395,33 @@ namespace buibaquang_aspcoreblazor.Api.Migrations
 
             modelBuilder.Entity("buibaquang_aspcoreblazor.Api.Entities.Order", b =>
                 {
-                    b.HasOne("buibaquang_aspcoreblazor.Api.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("buibaquang_aspcoreblazor.Api.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
-
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("buibaquang_aspcoreblazor.Api.Entities.OrderProduct", b =>
+                {
+                    b.HasOne("buibaquang_aspcoreblazor.Api.Entities.Order", null)
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("buibaquang_aspcoreblazor.Api.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("buibaquang_aspcoreblazor.Api.Entities.Order", b =>
+                {
+                    b.Navigation("OrderProducts");
                 });
 #pragma warning restore 612, 618
         }

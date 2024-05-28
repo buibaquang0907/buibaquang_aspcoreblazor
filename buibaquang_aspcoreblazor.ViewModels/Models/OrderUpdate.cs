@@ -1,7 +1,7 @@
 ﻿using buibaquang_aspcoreblazor.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace buibaquang_aspcoreblazor.Api.Models
+namespace buibaquang_aspcoreblazor.Models
 {
     public class OrderUpdate
     {

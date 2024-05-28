@@ -7,7 +7,7 @@ namespace buibaquang_aspcoreblazor.Api.Entities
     {
         [Key]
         public Guid Id { get; set; }
-        public Product Product { get; set; }
+        public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
         public User User { get; set; }
         public double TotalPrice { get; set; }
         public DateTime dateOrder { get; set; }
@@ -15,6 +15,14 @@ namespace buibaquang_aspcoreblazor.Api.Entities
         [Required]
         public string shippingAddress { get; set; }
         public string payment { get; set; }
-        public Status status { get; set;}
+        public Status status { get; set; }
+    }
+
+    public class OrderProduct
+    {
+        [Key]
+        public Guid Id { get; set; }
+        public Product Product { get; set; }
+        public int Quantity { get; set; }
     }
 }

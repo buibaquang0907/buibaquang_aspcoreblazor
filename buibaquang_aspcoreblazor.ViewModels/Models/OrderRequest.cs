@@ -2,19 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace buibaquang_aspcoreblazor.Api
+namespace buibaquang_aspcoreblazor.Models
 {
     public class OrderRequest
     {
         [Required]
-        public Guid ProductId { get; set; }
+        public Guid UserId { get; set; }
 
         [Required]
-        public Guid UserId { get; set; }
+        public List<OrderProductRequest> Products { get; set; } = new List<OrderProductRequest>();
 
         [Required]
         public double TotalPrice { get; set; }
@@ -31,5 +28,13 @@ namespace buibaquang_aspcoreblazor.Api
 
         [Required]
         public Status status { get; set; }
+    }
+
+    public class OrderProductRequest
+    {
+        [Required]
+        public Guid ProductId { get; set; }
+        [Required]
+        public int Quantity { get; set; }
     }
 }

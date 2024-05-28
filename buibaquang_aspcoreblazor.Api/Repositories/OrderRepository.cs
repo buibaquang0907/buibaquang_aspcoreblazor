@@ -41,12 +41,20 @@ namespace buibaquang_aspcoreblazor.Api.Repositories
 
         public async Task<Order> GetById(Guid id)
         {
-            return await _context.Orders.Include(o => o.Product).Include(o => o.User).FirstOrDefaultAsync(o => o.Id == id);
+            return await _context.Orders
+                .Include(o => o.OrderProducts)
+                    .ThenInclude(op => op.Product)
+                .Include(o => o.User)
+                .FirstOrDefaultAsync(o => o.Id == id);
         }
 
         public async Task<IEnumerable<Order>> GetOrderList()
         {
-            return await _context.Orders.Include(o => o.Product).Include(o => o.User).ToListAsync();
+            return await _context.Orders
+                .Include(o => o.OrderProducts)
+                    .ThenInclude(op => op.Product)
+                .Include(o => o.User)
+                .ToListAsync();
         }
 
         public async Task<Order> Update(Order order)

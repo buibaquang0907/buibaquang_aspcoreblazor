@@ -1,10 +1,7 @@
 ﻿using buibaquang_aspcoreblazor.Api.Data;
 using buibaquang_aspcoreblazor.Api.Entities;
-using buibaquang_aspcoreblazor.Api.Extensions;
-using buibaquang_aspcoreblazor.Api.Models;
 using buibaquang_aspcoreblazor.Api.Repositories;
-using buibaquang_aspcoreblazor.Models.Enums;
-using buibaquang_aspcoreblazor.Models.Models;
+using buibaquang_aspcoreblazor.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -28,10 +25,15 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
         public async Task<ActionResult> GetAll()
         {
             var orders = await _orderRepository.GetOrderList();
-            var ordermModel = orders.Select(x => new Order
+            var orderModels = orders.Select(x => new
             {
                 Id = x.Id,
-                Product = x.Product,
+                Products = x.OrderProducts.Select(op => new
+                {
+                    op.Product.Id,
+                    op.Product.Name,
+                    op.Quantity
+                }),
                 User = x.User,
                 TotalPrice = x.TotalPrice,
                 dateOrder = x.dateOrder,
@@ -39,7 +41,7 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
                 shippingAddress = x.shippingAddress,
                 status = x.status
             });
-            return Ok(orders);
+            return Ok(orderModels);
         }
 
         // GET api/<OrderController>/5
@@ -51,10 +53,15 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
             if (order == null)
                 return NotFound($"{id} is not found");
 
-            var orderById = new Order()
+            var orderById = new 
             {
                 Id = order.Id,
-                Product = order.Product,
+                Products = order.OrderProducts.Select(op => new 
+                {
+                    op.Product.Id,
+                    op.Product.Name,
+                    op.Quantity
+                }),
                 User = order.User,
                 TotalPrice = order.TotalPrice,
                 dateOrder = order.dateOrder,
@@ -66,26 +73,39 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
             return Ok(orderById);
         }
 
+
         // POST api/<OrderController>
+        [HttpPost]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] OrderRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var product = await _context.Products.FindAsync(request.ProductId);
             var user = await _context.Users.FindAsync(request.UserId);
-
-            if (product == null)
-                return NotFound("Product not found");
             if (user == null)
                 return NotFound("User not found");
+
+            var orderProducts = new List<OrderProduct>();
+            foreach (var item in request.Products)
+            {
+                var product = await _context.Products.FindAsync(item.ProductId);
+                if (product == null)
+                    return NotFound($"Product with ID {item.ProductId} not found");
+
+                orderProducts.Add(new OrderProduct
+                {
+                    Id = Guid.NewGuid(),
+                    Product = product,
+                    Quantity = item.Quantity
+                });
+            }
 
             var order = new Order()
             {
                 Id = Guid.NewGuid(),
-                Product = product,
                 User = user,
+                OrderProducts = orderProducts,
                 TotalPrice = request.TotalPrice,
                 dateOrder = request.dateOrder,
                 shippingAddress = request.shippingAddress,
@@ -99,7 +119,7 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
 
         // PUT api/<OrderController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, OrderUpdate request)
+        public async Task<IActionResult> Update(Guid id, [FromBody] OrderUpdate request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -115,6 +135,8 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
             return Ok(new Order()
             {
                 Id = order.Id,
+                shippingAddress = order.shippingAddress,
+                status = order.status
             });
         }
 
