@@ -1,6 +1,7 @@
 ﻿using buibaquang_aspcoreblazor.Api.Data;
 using buibaquang_aspcoreblazor.Api.Entities;
 using buibaquang_aspcoreblazor.Api.Extensions;
+using buibaquang_aspcoreblazor.Api.Models;
 using buibaquang_aspcoreblazor.Api.Repositories;
 using buibaquang_aspcoreblazor.Models.Enums;
 using buibaquang_aspcoreblazor.Models.Models;
@@ -24,16 +25,45 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
 
         // GET: api/<OrderController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            var orders = await _orderRepository.GetOrderList();
+            var ordermModel = orders.Select(x => new Order
+            {
+                Id = x.Id,
+                Product = x.Product,
+                User = x.User,
+                TotalPrice = x.TotalPrice,
+                dateOrder = x.dateOrder,
+                payment = x.payment,
+                shippingAddress = x.shippingAddress,
+                status = x.status
+            });
+            return Ok(orders);
         }
 
         // GET api/<OrderController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            return "value";
+            var order = await _orderRepository.GetById(id);
+
+            if (order == null)
+                return NotFound($"{id} is not found");
+
+            var orderById = new Order()
+            {
+                Id = order.Id,
+                Product = order.Product,
+                User = order.User,
+                TotalPrice = order.TotalPrice,
+                dateOrder = order.dateOrder,
+                payment = order.payment,
+                shippingAddress = order.shippingAddress,
+                status = order.status
+            };
+
+            return Ok(orderById);
         }
 
         // POST api/<OrderController>
@@ -69,14 +99,38 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
 
         // PUT api/<OrderController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Update(Guid id, OrderUpdate request)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var orderDb = await _orderRepository.GetById(id);
+            if (orderDb == null)
+                return NotFound($"{id} is not found");
+
+            orderDb.shippingAddress = request.shippingAddress;
+            orderDb.status = request.status;
+
+            var order = await _orderRepository.Update(orderDb);
+            return Ok(new Order()
+            {
+                Id = order.Id,
+            });
         }
 
         // DELETE api/<OrderController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var order = await _orderRepository.GetById(id);
+            if (order == null)
+                return NotFound($"{id} is not found");
+
+            var orderDel = await _orderRepository.Delete(order);
+            return Ok(orderDel != null ? "success" : "false");
         }
     }
 }
