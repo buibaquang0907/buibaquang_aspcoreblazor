@@ -76,7 +76,6 @@ namespace buibaquang_aspcoreblazor.Api.Controllers
 
         // POST api/<OrderController>
         [HttpPost]
-        [HttpPost]
         public async Task<IActionResult> Create([FromBody] OrderRequest request)
         {
             if (!ModelState.IsValid)

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
 using Blazored.Toast.Services;
 
-namespace buibaquang_aspcoreblazor.Wasm.Pages
+namespace buibaquang_aspcoreblazor.Wasm.Pages.Product
 {
     public partial class ProductUpdate
     {

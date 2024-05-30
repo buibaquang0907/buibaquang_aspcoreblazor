@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
 using Blazored.Toast.Services;
 
-namespace buibaquang_aspcoreblazor.Wasm.Pages
+namespace buibaquang_aspcoreblazor.Wasm.Pages.Product
 {
     public partial class ProductCreate
     {
@@ -29,7 +29,8 @@ namespace buibaquang_aspcoreblazor.Wasm.Pages
             {
                 toastService.ShowSuccess("Product created successfully.");
                 NavigationManager.NavigateTo("/product");
-            }else
+            }
+            else
                 toastService.ShowError("Failed to create product.");
         }
     }

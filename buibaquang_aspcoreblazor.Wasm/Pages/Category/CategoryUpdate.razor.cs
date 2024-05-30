@@ -4,7 +4,7 @@ using buibaquang_aspcoreblazor.Wasm.Services;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
 
-namespace buibaquang_aspcoreblazor.Wasm.Pages
+namespace buibaquang_aspcoreblazor.Wasm.Pages.Category
 {
     public partial class CategoryUpdate
     {

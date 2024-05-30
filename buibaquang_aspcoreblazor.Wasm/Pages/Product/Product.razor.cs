@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Linq;
 
-namespace buibaquang_aspcoreblazor.Wasm.Pages
+namespace buibaquang_aspcoreblazor.Wasm.Pages.Product
 {
     public partial class Product
     {
@@ -77,7 +77,7 @@ namespace buibaquang_aspcoreblazor.Wasm.Pages
         }
         private async Task OnConfirmDeleteProduct(bool deleteConfirmed)
         {
-            if(deleteConfirmed)
+            if (deleteConfirmed)
             {
                 var result = await ProductApiClient.DeleteProduct(DeleteId);
                 if (result)

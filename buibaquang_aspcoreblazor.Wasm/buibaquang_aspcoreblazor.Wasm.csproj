@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Register.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
     <PackageReference Include="Blazored.Toast" Version="4.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.5" />
@@ -17,6 +21,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\buibaquang_aspcoreblazor.ViewModels\buibaquang_aspcoreblazor.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Register.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Register.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Auth\Register.razor" />
   </ItemGroup>
 
 </Project>

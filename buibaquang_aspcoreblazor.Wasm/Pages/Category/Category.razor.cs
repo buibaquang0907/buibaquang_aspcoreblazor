@@ -4,7 +4,7 @@ using buibaquang_aspcoreblazor.Wasm.Components;
 using buibaquang_aspcoreblazor.Wasm.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace buibaquang_aspcoreblazor.Wasm.Pages
+namespace buibaquang_aspcoreblazor.Wasm.Pages.Category
 {
     public partial class Category
     {

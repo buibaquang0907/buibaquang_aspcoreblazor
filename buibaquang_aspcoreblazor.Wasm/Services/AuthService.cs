@@ -30,7 +30,7 @@ namespace buibaquang_aspcoreblazor.Wasm.Services
         }
         public async Task<LoginResponse> Login(LoginRequest loginRequest)
         {
-            var result = await _httpClient.PostAsJsonAsync("/api/login", loginRequest);
+            var result = await _httpClient.PostAsJsonAsync("/api/auth/login", loginRequest);
             var content = await result.Content.ReadAsStringAsync();
             var loginResponse = JsonSerializer.Deserialize<LoginResponse>(content,
                 new JsonSerializerOptions()
