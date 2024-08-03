@@ -25,7 +25,6 @@ builder.Services.AddScoped<ICategoryApiClient, CategoryService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, ApiAuthenticationStateProvider>();
-builder.Services.AddScoped<ICartService, CartService>();
 
 
 await builder.Build().RunAsync();

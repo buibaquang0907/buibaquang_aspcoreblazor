@@ -16,9 +16,9 @@ namespace buibaquang_aspcoreblazor.Api.Data
                     FirstName = "Bui",
                     LastName = "Quang",
                     UserName = "admin",
-                    Email = "admin1@gmail.com",
+                    Email = "admin@gmail.com",
                     PhoneNumber = "1234567890",
-                    NormalizedEmail = "ADMIN1@GMAIL.COM",
+                    NormalizedEmail = "ADMIN@GMAIL.COM",
                     NormalizedUserName = "ADMIN",
                     SecurityStamp = Guid.NewGuid().ToString(),
                 };

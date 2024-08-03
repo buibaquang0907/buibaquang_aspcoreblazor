@@ -145,64 +145,6 @@ namespace buibaquang_aspcoreblazor.Api.Migrations
                     b.ToTable("Categorys");
                 });
 
-            modelBuilder.Entity("buibaquang_aspcoreblazor.Api.Entities.Order", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("float");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("dateOrder")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("payment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("shippingAddress")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("buibaquang_aspcoreblazor.Api.Entities.OrderProduct", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderProduct");
-                });
-
             modelBuilder.Entity("buibaquang_aspcoreblazor.Api.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
@@ -388,37 +330,6 @@ namespace buibaquang_aspcoreblazor.Api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("buibaquang_aspcoreblazor.Api.Entities.Order", b =>
-                {
-                    b.HasOne("buibaquang_aspcoreblazor.Api.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("buibaquang_aspcoreblazor.Api.Entities.OrderProduct", b =>
-                {
-                    b.HasOne("buibaquang_aspcoreblazor.Api.Entities.Order", null)
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("buibaquang_aspcoreblazor.Api.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("buibaquang_aspcoreblazor.Api.Entities.Order", b =>
-                {
-                    b.Navigation("OrderProducts");
                 });
 #pragma warning restore 612, 618
         }

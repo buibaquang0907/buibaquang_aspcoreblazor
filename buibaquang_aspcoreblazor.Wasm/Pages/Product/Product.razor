@@ -1,9 +1,8 @@
 ﻿@page "/product"
-@using buibaquang_aspcoreblazor.Models.Cart
 @using buibaquang_aspcoreblazor.Models.Models
 @using buibaquang_aspcoreblazor.Wasm.Components
 @using buibaquang_aspcoreblazor.Wasm.Services
-@inject ICartService CartService
+
 
 <h3 class="text-center my-4">Product List</h3>
 
@@ -74,7 +73,6 @@ else
                             <a href="/productDetail/@item.Id" class="btn btn-info btn-sm me-1">Detail</a>
                             <a href="/productUpdate/@item.Id" class="btn btn-warning btn-sm">Edit</a>
                             <button class="btn btn-danger btn-sm" @onclick="()=>OnDeleteProduct(item.Id)">Delete</button>
-                            <button class="btn btn-success btn-sm" @onclick="()=>AddToCart(item)">Add to Cart</button>
                         </td>
                     </tr>
                 }
@@ -92,16 +90,5 @@ else
 }
 
 @code {
-    private async Task AddToCart(ProductModel product)
-    {
-        var cartItem = new CartItem
-            {
-                ProductId = product.Id,
-                ProductName = product.Name,
-                Price = Convert.ToDecimal(product.Price),
-                Quantity = 1
-            };
-        CartService.AddToCart(cartItem);
-        ToastService.ShowSuccess("Product added to cart.");
-    }
+
 }
