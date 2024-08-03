@@ -12,7 +12,7 @@ using buibaquang_aspcoreblazor.Api.Data;
 namespace buibaquang_aspcoreblazor.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240528175752_Initial")]
+    [Migration("20240708065110_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
